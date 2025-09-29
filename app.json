@@ -10,7 +10,10 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.tuhinh14043.magic-agent"
+      "bundleIdentifier": "com.tuhinh14043.magic-agent",
+      "infoPlist": {
+        "NSMicrophoneUsageDescription": "This app needs microphone access for audio calls and recording."
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -20,7 +23,8 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.tuhinh14043.magicagent"
     },
     "web": {
       "output": "static",

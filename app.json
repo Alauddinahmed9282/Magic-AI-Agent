@@ -24,7 +24,8 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.tuhinh14043.magicagent"
+      "package": "com.tuhinh14043.magicagent",
+      "scheme": "magicagent"
     },
     "web": {
       "output": "static",

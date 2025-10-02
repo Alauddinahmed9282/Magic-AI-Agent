@@ -1,8 +1,13 @@
+import { useUser } from "@clerk/clerk-expo";
 import { useConversation } from "@elevenlabs/react-native";
-import React from "react";
-import { Button, StyleSheet, View } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import Button from "../Button";
+import Gradient from "../Gradiant";
 
 const SessionScreen = () => {
+  const { user } = useUser();
+  const [isStarting, setIsStarting] = useState(false);
   const conversation = useConversation({
     onConnect: () => console.log("Connected to conversation"),
     onDisconnect: () => console.log("Disconnected from conversation"),
@@ -16,18 +21,22 @@ const SessionScreen = () => {
     onUnhandledClientToolCall: (params) =>
       console.log("Unhandled client tool call:", params),
   });
-  const startconversation = async () => {
+  const startConversation = async () => {
+    if (isStarting) return;
     try {
+      setIsStarting(true);
       await conversation.startSession({
         agentId: process.env.EXPO_PUBLIC_AGENT_ID,
         dynamicVariables: {
-          user_name: "user",
+          user_name: user?.username ?? "user",
           session_title: "user",
           session_description: "test",
         },
       });
     } catch (error) {
       console.log("error", error);
+    } finally {
+      setIsStarting(false);
     }
   };
   const endConversation = async () => {
@@ -37,16 +46,48 @@ const SessionScreen = () => {
       console.log("error", error);
     }
   };
+  const canStart = conversation.status === "disconnected" && !isStarting;
+  const canEnd = conversation.status === "connected";
 
   return (
-    <View>
-      <Button title="Start conversation" onPress={startconversation} />
-      <Button
-        title="End converssconversationion"
-        onPress={endConversation}
-        color="#841584"
+    <>
+      <Gradient
+        position="top"
+        isSpeaking={
+          conversation.status === "connected" ||
+          conversation.status === "connecting"
+        }
       />
-    </View>
+      <View
+        style={{
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 16,
+        }}
+      >
+        <Gradient
+          position="top"
+          isSpeaking={
+            conversation.status === "connected" ||
+            conversation.status === "connecting"
+          }
+        />
+        <Text style={{ fontSize: 32, fontWeight: "bold" }}>Magic Agent</Text>
+        {/* <Button title="Start Conversation" onPress={startConversation} />
+        <Button
+          title="End Conversation"
+          onPress={endConversation}
+          color="#841584"
+        /> */}
+        <Button
+          onPress={canStart ? startConversation : endConversation}
+          disabled={!canStart && !canEnd}
+        >
+          {isStarting ? "End Conversation" : "Start Conversation"}
+        </Button>
+      </View>
+    </>
   );
 };
 

@@ -1,8 +1,8 @@
-import { useSignUp } from '@clerk/clerk-expo';
-import { useState } from 'react';
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
-import InitialSignUpForm from './forms/InitialSignUpForm';
-import VerifyEmailCodeSignUpForm from './forms/VerifyEmailCodeSignUpForm';
+import { useSignUp } from "@clerk/clerk-expo";
+import { useState } from "react";
+import { ActivityIndicator, View } from "react-native";
+import InitialSignUpForm from "./forms/InitialSignUpForm";
+import VerifyEmailCodeSignUpForm from "./forms/VerifyEmailCodeSignUpForm";
 
 enum FormState {
   SignIn,
@@ -15,23 +15,27 @@ interface Props {
   homeUrl?: string;
 }
 
-export function SignUp({ scheme = "catalystapp", signInUrl = "/(auth)", homeUrl = "/" }: Props) {
+export function SignUp({
+  scheme = "catalystapp",
+  signInUrl = "/(auth)",
+  homeUrl = "/",
+}: Props) {
   const { isLoaded } = useSignUp();
   const [formState, setFormState] = useState<FormState>(FormState.SignIn);
-  const [emailAddress, setEmailAddress] = useState('');
+  const [emailAddress, setEmailAddress] = useState("");
 
   if (!isLoaded) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <ActivityIndicator size="large" />
       </View>
-    )
+    );
   }
 
-  switch(formState) {
+  switch (formState) {
     case FormState.SignIn:
       return (
-        <InitialSignUpForm 
+        <InitialSignUpForm
           onContinue={(emailAddress: string) => {
             setEmailAddress(emailAddress);
             setFormState(FormState.VerifyEmailCode);
@@ -42,7 +46,7 @@ export function SignUp({ scheme = "catalystapp", signInUrl = "/(auth)", homeUrl 
       );
     case FormState.VerifyEmailCode:
       return (
-        <VerifyEmailCodeSignUpForm 
+        <VerifyEmailCodeSignUpForm
           emailAddress={emailAddress}
           onEditEmailAddress={() => {
             setFormState(FormState.SignIn);

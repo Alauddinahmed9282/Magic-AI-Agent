@@ -2,9 +2,7 @@ import { SignUp } from "@/components/clerk/SignUp";
 
 // Sign Up Screen
 function SignUpScreen() {
-  return (
-    <SignUp scheme="magicagent://" signInUrl="/(auth)" homeUrl="/(tabs)" />
-  );
+  return <SignUp signInUrl="/" scheme="magicagent" />;
 }
 
 export default SignUpScreen;

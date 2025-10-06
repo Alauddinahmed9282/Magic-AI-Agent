@@ -1,7 +1,7 @@
 import { useUser } from "@clerk/clerk-expo";
 import { useConversation } from "@elevenlabs/react-native";
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import Button from "../Button";
 import Gradient from "../Gradiant";
 
@@ -74,17 +74,11 @@ const SessionScreen = () => {
           }
         />
         <Text style={{ fontSize: 32, fontWeight: "bold" }}>Magic Agent</Text>
-        {/* <Button title="Start Conversation" onPress={startConversation} />
-        <Button
-          title="End Conversation"
-          onPress={endConversation}
-          color="#841584"
-        /> */}
         <Button
           onPress={canStart ? startConversation : endConversation}
           disabled={!canStart && !canEnd}
         >
-          {isStarting ? "End Conversation" : "Start Conversation"}
+          {canStart ? "Start Conversation" : "End Conversation"}
         </Button>
       </View>
     </>
@@ -92,5 +86,3 @@ const SessionScreen = () => {
 };
 
 export default SessionScreen;
-
-const styles = StyleSheet.create({});

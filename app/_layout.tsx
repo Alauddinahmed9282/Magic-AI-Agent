@@ -10,12 +10,12 @@ function RootLayoutWithAuth() {
 
   return (
     <ElevenLabsProvider>
-      <Stack>
+      <Stack screenOptions={{ headerShown: false }}>
         <Stack.Protected guard={isSignedIn}>
-          <Stack.Screen name="(protected)" headerShown={false} />
+          <Stack.Screen name="(protected)" />
         </Stack.Protected>
         <Stack.Protected guard={!isSignedIn}>
-          <Stack.Screen name="(public)" headerShown={false} />
+          <Stack.Screen name="(public)" />
         </Stack.Protected>
       </Stack>
     </ElevenLabsProvider>
